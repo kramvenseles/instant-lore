@@ -1,0 +1,12 @@
+{
+  "required": false,
+  "package": "com.rufana.instantlore.mixin.betterf3",
+  "compatibilityLevel": "JAVA_21",
+  "plugin": "com.rufana.instantlore.mixin.betterf3.BetterF3MixinPlugin",
+  "client": [
+    "BetterF3CoordsMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

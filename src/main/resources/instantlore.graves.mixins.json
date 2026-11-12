@@ -1,0 +1,12 @@
+{
+  "required": false,
+  "package": "com.rufana.instantlore.mixin.graves",
+  "compatibilityLevel": "JAVA_21",
+  "plugin": "com.rufana.instantlore.mixin.graves.GravesMixinPlugin",
+  "mixins": [
+    "GraveUtilsMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

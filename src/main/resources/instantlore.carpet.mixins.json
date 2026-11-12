@@ -1,0 +1,12 @@
+{
+  "required": false,
+  "package": "com.rufana.instantlore.mixin.carpet",
+  "compatibilityLevel": "JAVA_21",
+  "plugin": "com.rufana.instantlore.mixin.carpet.CarpetMixinPlugin",
+  "mixins": [
+    "EntityPlayerMPFakeCreateMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

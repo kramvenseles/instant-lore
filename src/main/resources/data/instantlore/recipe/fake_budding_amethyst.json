@@ -1,0 +1,4 @@
+{ "type": "minecraft:crafting_shaped", "category": "building",
+  "pattern": [ " S ", "SAS", " S " ],
+  "key": { "S": "minecraft:amethyst_shard", "A": "minecraft:amethyst_block" },
+  "result": { "id": "instantlore:block_19", "count": 1 } }

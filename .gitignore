@@ -1,0 +1,34 @@
+# Gradle
+.gradle/
+build/
+
+# Loom: remapped Minecraft, run dirs, dev-env configs
+run/
+run2/
+.fabric/
+remappedSrc/
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.classpath
+.project
+
+# macOS
+.DS_Store
+
+# Content signing keys — private key never goes into the repo
+*.pem
+*.key
+secrets/
+__pycache__/
+
+# Third-party jars for the dev runtime (heavy, reproducible)
+dev-mods/
+
+# Rollback jars live outside the repo
+/prod-rollback/

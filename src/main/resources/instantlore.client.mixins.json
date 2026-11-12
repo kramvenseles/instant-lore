@@ -1,0 +1,36 @@
+{
+  "required": true,
+  "package": "com.rufana.instantlore.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "MinecraftClientMixin",
+    "ResourcePackManagerAccessor",
+    "CameraMixin",
+    "KeyBindingMixin",
+    "PlayerControlEntityMixin",
+    "InputAccessor",
+    "ClientPlayerInputMixin",
+    "ClientPlayerLookMixin",
+    "GameRendererFovMixin",
+    "MinecraftClientInvoker",
+    "ForcedClickMixin",
+    "LivingEntityRenderStateGhostMixin",
+    "LivingEntityRendererGhostMixin",
+    "FogRendererMixin",
+    "DebugHudScrambleMixin",
+    "InGameHudCrosshairMixin",
+    "InGameHudAirBubblesMixin",
+    "ChatScreenCoordsMixin",
+    "SocialInteractionsHideVanishedMixin",
+    "CommandSourceHideVanishedMixin",
+    "EffectScreenHideMapBlindnessMixin",
+    "GameRendererPostInvoker",
+    "GameRendererCameraEntityMixin",
+    "SkyRenderingMixin",
+    "CameraDistanceMixin",
+    "LightningThunderMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

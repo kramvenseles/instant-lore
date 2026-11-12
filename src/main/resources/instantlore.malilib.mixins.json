@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "com.rufana.instantlore.mixin.malilib",
+  "compatibilityLevel": "JAVA_21",
+  "plugin": "com.rufana.instantlore.mixin.malilib.MalilibMixinPlugin",
+  "client": [
+    "MalilibOverlayMixin",
+    "MalilibInputMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

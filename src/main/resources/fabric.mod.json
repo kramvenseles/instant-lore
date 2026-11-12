@@ -1,0 +1,52 @@
+{
+	"schemaVersion": 1,
+	"id": "instantlore",
+	"version": "${version}",
+	"name": "Instant Lore",
+	"description": "A runtime for server-driven content delivered as data, so the client mod almost never needs a manual update.",
+	"authors": [
+		"kramvensel"
+	],
+	"contact": {
+		"sources": "https://github.com/kramvenseles/instant-lore"
+	},
+	"license": "MIT",
+	"environment": "*",
+	"provides": [
+		"vanish",
+		"melius-vanish"
+	],
+	"entrypoints": {
+		"main": [
+			"com.rufana.instantlore.InstantLore"
+		],
+		"preLaunch": [
+			"com.rufana.instantlore.update.UpdatePreLaunch"
+		],
+		"client": [
+			"com.rufana.instantlore.client.InstantLoreClient"
+		],
+		"rei_client": [
+			"com.rufana.instantlore.client.compat.LoreReiPlugin"
+		],
+		"voicechat": [
+			"com.rufana.instantlore.server.integration.voicechat.VcPlugin"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"mixins": [
+		"instantlore.mixins.json",
+		"instantlore.client.mixins.json",
+		"instantlore.malilib.mixins.json",
+		"instantlore.journeymap.mixins.json",
+		"instantlore.xaero.mixins.json",
+		"instantlore.graves.mixins.json",
+		"instantlore.betterf3.mixins.json",
+		"instantlore.carpet.mixins.json"
+	]
+}

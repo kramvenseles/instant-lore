@@ -1,0 +1,12 @@
+{
+  "required": false,
+  "package": "com.rufana.instantlore.mixin.journeymap",
+  "compatibilityLevel": "JAVA_21",
+  "plugin": "com.rufana.instantlore.mixin.journeymap.JourneyMapMixinPlugin",
+  "client": [
+    "JourneyMapChatPosMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

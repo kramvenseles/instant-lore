@@ -1,0 +1,3 @@
+{ "type": "minecraft:crafting_shapeless", "category": "misc",
+  "ingredients": [ "instantlore:item_15" ],
+  "result": { "id": "instantlore:item_14", "count": 2 } }

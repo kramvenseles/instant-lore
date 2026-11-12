@@ -1,0 +1,16 @@
+{
+  "required": false,
+  "package": "com.rufana.instantlore.mixin.xaero",
+  "compatibilityLevel": "JAVA_21",
+  "plugin": "com.rufana.instantlore.mixin.xaero.XaeroMixinPlugin",
+  "client": [
+    "WorldMapIgnoreLimboMixin",
+    "WorldMapWriteLimboGuardMixin",
+    "WorldMapSaveLimboGuardMixin",
+    "WorldMapCacheWriteLimboGuardMixin",
+    "MinimapIgnoreLimboMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

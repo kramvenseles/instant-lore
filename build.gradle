@@ -1,0 +1,128 @@
+plugins {
+	id 'fabric-loom' version "${loom_version}"
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+	archivesName = project.archives_base_name
+}
+
+loom {
+	runs {
+		client {
+			// Opt-in verbose Mixin logging: `-PmixinVerbose` makes Mixin log every
+			// injector application. Useful to confirm a foreign-target mixin actually
+			// attached to a live target — with `defaultRequire 0` a mismatched @Inject
+			// is otherwise skipped silently.
+			if (project.hasProperty('mixinVerbose')) {
+				vmArg '-Dmixin.debug.verbose=true'
+			}
+
+			// Auto-connect instead of clicking through the menu:
+			//   ./gradlew runClient -PjoinServer=localhost
+			if (project.hasProperty('joinServer')) {
+				programArgs '--quickPlayMultiplayer', project.property('joinServer')
+			}
+
+			// Default dev username is random (Player###). Override it when testing
+			// anything tied to a specific name (e.g. an admin-only command):
+			//   ./gradlew runClient -Pusername=<name>
+			if (project.hasProperty('username')) {
+				programArgs '--username', project.property('username')
+			}
+		}
+
+		// A second client, so you can play while the first one is used for debugging.
+		//
+		// A dedicated run dir is required: two clients sharing one `run/` would share
+		// options.txt, caches and — crucially — the log file. The random dev username
+		// means this second instance is genuinely a second player.
+		clientTwo {
+			client()
+			configName = "Minecraft Client (second)"
+			runDir = "run2"
+			ideConfigGenerated = false
+
+			if (project.hasProperty('joinServer')) {
+				programArgs '--quickPlayMultiplayer', project.property('joinServer')
+			}
+
+			if (project.hasProperty('usernameTwo')) {
+				programArgs '--username', project.property('usernameTwo')
+			}
+		}
+	}
+}
+
+repositories {
+	maven { url = "https://maven.shedaniel.me/" }                 // REI
+	maven { url = "https://maven.architectury.dev/" }             // REI dependency (types used by its API)
+	maven { url = "https://maven.nucleoid.xyz/" }                 // Text Placeholder API (pb4)
+	maven { url = "https://maven.maxhenkel.de/repository/public" } // Simple Voice Chat API
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	// REI: hide unused pool slots from the recipe viewer (LoreReiPlugin). Compile-only —
+	// the mod loads fine without REI (the rei_client entrypoint is queried by REI itself).
+	// architectury is here because REI's API references its types.
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:21.11.816"
+	modCompileOnly "dev.architectury:architectury-fabric:19.0.1"
+
+	// Full REI + architectury only in the dev runtime, to verify slot hiding live.
+	// modLocalRuntime is not published and never ends up in the shipped jar.
+	modLocalRuntime "me.shedaniel:RoughlyEnoughItems-fabric:21.11.816"
+	modLocalRuntime "dev.architectury:architectury-fabric:19.0.1"
+
+	// Note: several mod-compatibility layers (Xaero's Map, JourneyMap, malilib/Litematica,
+	// BetterF3) are exercised at dev runtime against the closed-source jars of those mods.
+	// Those jars are not redistributed here; the mixins are all gated on the mod being
+	// present (isModLoaded / mixin plugins), so both the build and the shipped jar work
+	// without them. Drop the jars into a local dev-mods/ folder and wire them up as
+	// modLocalRuntime if you want to run those integration tests yourself.
+
+	// Scripting engine. include() nests it inside the mod jar: players don't have the
+	// library, and shipping it separately would be exactly the manual update we avoid.
+	implementation "org.luaj:luaj-jse:3.0.1"
+	include "org.luaj:luaj-jse:3.0.1"
+
+	// Permissions for the drop-in /vanish command (vanish.command.* nodes). Without a
+	// provider (e.g. LuckPerms) it falls back to operator level. include() so it doesn't
+	// have to be shipped as a separate mod.
+	modImplementation "me.lucko:fabric-permissions-api:0.6.1"
+	include "me.lucko:fabric-permissions-api:0.6.1"
+
+	// Text Placeholder API (pb4) — compile only. Runs server-side. Used to register online/
+	// staff counters as pb4 placeholders so they survive a reload globally. Integration is
+	// guarded by isModLoaded("placeholder-api"). The API references MC types, so
+	// modCompileOnly (for intermediary->named remap).
+	modCompileOnly "eu.pb4:placeholder-api:2.8.2+1.21.10"
+
+	// Simple Voice Chat plugin API — compile only. Runs server-side; absent on the dev
+	// client. The plugin (broadcast/whisper/spy-join) is fully guarded by
+	// isModLoaded("voicechat"). The api package is MC-agnostic.
+	compileOnly "de.maxhenkel.voicechat:voicechat-api:2.6.19"
+}
+
+processResources {
+	inputs.property "version", project.version
+
+	filesMatching("fabric.mod.json") {
+		expand "version": project.version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 21
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
+}
